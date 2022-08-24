@@ -1,0 +1,28 @@
+name: CI
+on:
+  push:
+    branches:
+      - main
+  pull_request: {}
+
+jobs:
+  failing-job:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/github-script@v3
+        with:
+          script: |
+              core.setFailed("Oh no! A failure")
+  success-job:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/hello-world-docker-action@master
+        with:
+          who-to-greet: 'Adrian'
+  skipped-job:
+    runs-on: ubuntu-latest
+    if: "!always()"
+    steps:
+      - uses: actions/hello-world-docker-action@master
+        with:
+          who-to-greet: 'Adrian'
