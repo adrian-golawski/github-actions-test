@@ -26,3 +26,49 @@ jobs:
       - uses: actions/hello-world-docker-action@master
         with:
           who-to-greet: 'Adrian'
+  needs-all-when-failed:
+    runs-on: ubuntu-latest
+    needs: [failing-job, success-job, skipped-job]
+    steps:
+      - uses: actions/hello-world-docker-action@master
+        with:
+          who-to-greet: 'Adrian'
+  always-no-failure-when-failed:
+    runs-on: ubuntu-latest
+    if: "always() && !failure()"
+    needs: [failing-job, success-job, skipped-job]
+    steps:
+      - uses: actions/hello-world-docker-action@master
+        with:
+          who-to-greet: 'Adrian'
+  no-failure-when-failed:
+    runs-on: ubuntu-latest
+    if: "!failure()"
+    needs: [failing-job, success-job, skipped-job]
+    steps:
+      - uses: actions/hello-world-docker-action@master
+        with:
+          who-to-greet: 'Adrian'
+  needs-all-when-skipped:
+    runs-on: ubuntu-latest
+    needs: [success-job, skipped-job]
+    steps:
+      - uses: actions/hello-world-docker-action@master
+        with:
+          who-to-greet: 'Adrian'
+  always-no-failure-when-skipped:
+    runs-on: ubuntu-latest
+    if: "always() && !failure()"
+    needs: [success-job, skipped-job]
+    steps:
+      - uses: actions/hello-world-docker-action@master
+        with:
+          who-to-greet: 'Adrian'
+  no-failure-when-skipped:
+    runs-on: ubuntu-latest
+    if: "!failure()"
+    needs: [success-job, skipped-job]
+    steps:
+      - uses: actions/hello-world-docker-action@master
+        with:
+          who-to-greet: 'Adrian'
